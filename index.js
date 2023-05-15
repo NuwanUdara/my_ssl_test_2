@@ -24,6 +24,7 @@ let options;
 
 async function walk(){
     let ff = await run()
+    console.log(ff, typeof(ff))
     options = {
         key: fs.readFileSync("key.pem"),
         cert: fs.readFileSync("cert.pem"),
