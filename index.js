@@ -34,7 +34,7 @@ async function walk(){
         rejectUnauthorized: true
         };       
 }
-
+walk()
 // const options = {
 // key: fs.readFileSync("key.pem"),
 // cert: fs.readFileSync("cert.pem"),
