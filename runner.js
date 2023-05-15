@@ -3,4 +3,6 @@ const run = require('./d.js');
 
 let ff = run();
 
+
 console.log(ff)
+

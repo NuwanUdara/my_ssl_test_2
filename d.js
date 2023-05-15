@@ -13,10 +13,12 @@ const params = {
 };
 
 async function run () {
-  const data = await ddbClient.send(new GetItemCommand(params));
-  console.log("Success", data.Item.certi.S);
-  return data.Item.certi.S;
-  
+  let data = await ddbClient.send(new GetItemCommand(params));
+  data = JSON.stringify(data.Item.certi.S)
+  //console.log(data)
+  // console.log("Success", data.Item.certi.S);
+  if (data){
+  return data;
+  }
 };
 module.exports = run;
-
