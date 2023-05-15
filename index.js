@@ -16,7 +16,7 @@ res.send("welcome Home")
 // Creating object of key and certificate
 // for SSL
 
-
+walk()
 async function walk(){
     let ff = await run()
     console.log(ff, typeof(ff))
@@ -33,7 +33,7 @@ async function walk(){
     console.log("Server started at port 443");
     });       
 }
-walk()
+
 // const options = {
 // key: fs.readFileSync("key.pem"),
 // cert: fs.readFileSync("cert.pem"),
