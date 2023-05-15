@@ -1,9 +1,8 @@
 // Requiring in-built https for creating
 // https server
 const run = require('./d.js');
-
 const https = require("https");
-
+const aws = require('@aws-sdk')
 // Express for handling GET and POST request
 const express = require("express");
 const app = express();
@@ -11,10 +10,8 @@ const app = express();
 // Requiring file system to use local files
 const fs = require("fs");
 
-
 // Get request for root of the app
 app.get("/", function (req, res) {
-
 res.send("welcome Home")
 });
 
