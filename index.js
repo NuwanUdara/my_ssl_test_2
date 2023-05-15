@@ -21,17 +21,17 @@ async function walk(){
     let ff = await run()
     console.log(ff, typeof(ff))
     let options = {
-        //key: fs.readFileSync("key.pem"),
-        //cert: fs.readFileSync("cert.pem"),
+        key: fs.readFileSync("key.pem"),
+        cert: fs.readFileSync("cert.pem"),
         //ca: fs.readFileSync("ca.pem"),
         ca:ff,
         requestCert: true,
         rejectUnauthorized: true
         };
-    // https.createServer(options, app)
-    // .listen(443, function (req, res) {
-    // console.log("Server started at port 443");
-    // });       
+    https.createServer(options, app)
+    .listen(443, function (req, res) {
+    console.log("Server started at port 443");
+    });       
 }
 
 // const options = {
