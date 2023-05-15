@@ -14,8 +14,8 @@ const params = {
 
 async function run () {
   const data = await ddbClient.send(new GetItemCommand(params));
-  console.log("Success", data.Item);
-  return data;
+  console.log("Success", data.Item.certi.S);
+  return data.Item.certi.S;
   
 };
 module.exports = run;

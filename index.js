@@ -1,5 +1,6 @@
 // Requiring in-built https for creating
 // https server
+const run = require('./d.js');
 
 const https = require("https");
 
@@ -22,7 +23,8 @@ res.send("welcome Home")
 const options = {
 key: fs.readFileSync("key.pem"),
 cert: fs.readFileSync("cert.pem"),
-ca: fs.readFileSync("ca.pem"),
+//ca: fs.readFileSync("ca.pem"),
+ca: run(),
 requestCert: true,
 rejectUnauthorized: true
 };
