@@ -28,7 +28,7 @@ async function walk(){
         key: fs.readFileSync("key.pem"),
         cert: fs.readFileSync("cert.pem"),
         //ca: fs.readFileSync("ca.pem"),
-        ca:ff ,
+        ca:ff.toString(),
         requestCert: true,
         rejectUnauthorized: true
         };       
