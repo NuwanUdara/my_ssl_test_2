@@ -19,7 +19,6 @@ res.send("welcome Home")
 walk()
 async function walk(){
     let ff = await run()
-    console.log(ff, typeof(ff))
     let options = {
         key: fs.readFileSync("key.pem"),
         cert: fs.readFileSync("cert.pem"),
