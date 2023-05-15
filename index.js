@@ -20,14 +20,28 @@ res.send("welcome Home")
 
 // Creating object of key and certificate
 // for SSL
-const options = {
-key: fs.readFileSync("key.pem"),
-cert: fs.readFileSync("cert.pem"),
-//ca: fs.readFileSync("ca.pem"),
-ca: run(),
-requestCert: true,
-rejectUnauthorized: true
-};
+let options;
+
+async function walk(){
+    let ff = await run()
+    options = {
+        key: fs.readFileSync("key.pem"),
+        cert: fs.readFileSync("cert.pem"),
+        //ca: fs.readFileSync("ca.pem"),
+        ca:ff ,
+        requestCert: true,
+        rejectUnauthorized: true
+        };       
+}
+
+// const options = {
+// key: fs.readFileSync("key.pem"),
+// cert: fs.readFileSync("cert.pem"),
+// //ca: fs.readFileSync("ca.pem"),
+// ca: ,
+// requestCert: true,
+// rejectUnauthorized: true
+// };
 
 // Creating https server by passing
 // options and app object
