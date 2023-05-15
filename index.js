@@ -28,10 +28,10 @@ async function walk(){
         requestCert: true,
         rejectUnauthorized: true
         };
-    https.createServer(options, app)
-    .listen(443, function (req, res) {
-    console.log("Server started at port 443");
-    });       
+    // https.createServer(options, app)
+    // .listen(443, function (req, res) {
+    // console.log("Server started at port 443");
+    // });       
 }
 
 // const options = {
