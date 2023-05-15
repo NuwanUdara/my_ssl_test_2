@@ -2,7 +2,7 @@
 // https server
 const run = require('./d.js');
 const https = require("https");
-const aws = require('@aws-sdk')
+const aws = require('aws-sdk')
 // Express for handling GET and POST request
 const express = require("express");
 const app = express();
