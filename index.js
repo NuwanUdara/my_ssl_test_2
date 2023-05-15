@@ -4,13 +4,6 @@ const run = require('./d.js');
 const https = require("https");
 const express = require("express");
 const app = express();
-const AWS = require("aws-sdk");
-
-AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: 'us-west-2',
-});
 
 // Requiring file system to use local files
 const fs = require("fs");
@@ -26,11 +19,10 @@ res.send("welcome Home")
 
 async function walk(){
     let ff = await run()
-
     console.log(ff, typeof(ff))
     let options = {
-        key: fs.readFileSync("key.pem"),
-        cert: fs.readFileSync("cert.pem"),
+        //key: fs.readFileSync("key.pem"),
+        //cert: fs.readFileSync("cert.pem"),
         //ca: fs.readFileSync("ca.pem"),
         ca:ff,
         requestCert: true,
