@@ -2,8 +2,11 @@
 const run = require('./d.js');
 
 let options={};
-let ff = await run()
-console.log(ff, typeof(ff))
+async function walk(){
+    let ff = await run()
+    console.log(ff, typeof(ff))
+}
+walk()
 // async function walk(){
 //     let ff = await run()
 //     console.log(ff, typeof(ff))
