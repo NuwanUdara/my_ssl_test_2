@@ -2,7 +2,10 @@
 // https server
 const run = require('./d.js');
 const https = require("https");
-const aws = require('aws-sdk')
+var AWS = require("aws-sdk");
+AWS.config.update({
+    region: 'us-west-2'
+  });
 // Express for handling GET and POST request
 const express = require("express");
 const app = express();
