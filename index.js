@@ -2,10 +2,10 @@
 // https server
 const run = require('./d.js');
 const https = require("https");
-var AWS = require("aws-sdk");
-AWS.config.update({
-    region: 'us-west-2'
-  });
+// var AWS = require("aws-sdk");
+// AWS.config.update({
+//     region: 'us-west-2'
+//   });
 // Express for handling GET and POST request
 const express = require("express");
 const app = express();
@@ -20,7 +20,7 @@ res.send("welcome Home")
 
 // Creating object of key and certificate
 // for SSL
-let options;
+let options={};
 
 async function walk(){
     let ff = await run()
@@ -46,7 +46,7 @@ walk()
 
 // Creating https server by passing
 // options and app object
-https.createServer(options, app)
-.listen(443, function (req, res) {
-console.log("Server started at port 443");
-});
+// https.createServer(options, app)
+// .listen(443, function (req, res) {
+// console.log("Server started at port 443");
+// });
