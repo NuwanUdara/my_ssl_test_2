@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  MyApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      DefinitionBody:
+        swagger: 2.0
+        info:
+          title: My API
+        paths:
+          /:
+            get:
+              x-amazon-apigateway-integration:
+                type: http 
+                uri: https://54.245.194.211/
+                httpMethod: GET
+                passthroughBehavior: when_no_match
+                tlsConfig:
+                  insecureSkipVerification: true # use this if your ssl certificates are self signed
+                # connectionType: VPC_LINK # Add if using a VPC link remove for default ( internet )
+              responses:
+                '200':
+                  description: OK
+                  headers:
+                    Content-Type:
+                      type: string
+
+                '400':
+                  description: Bad Request
+                  headers:
+                    Content-Type:
+                      type: string
+
+          /{proxy+}:
+            x-amazon-apigateway-any-method:
+              x-amazon-apigateway-integration:
+                type: http_proxy
+                uri: https://54.245.194.211/{proxy}
+                passthroughBehavior: when_no_match
+                httpMethod: ANY
+                # connectionType: VPC_LINK # Add if using a VPC link remove for default ( internet )\\
+                tlsConfig:
+                  insecureSkipVerification: true # use this if your ssl certificates are self signed
+              responses:
+                '200':
+                  description: OK
+                  headers:
+                    Content-Type:
+                      type: string
+
+                '400':
+                  description: Bad Request
+                  headers:
+                    Content-Type:
+                      type: string
+  MyDynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    
+    Properties:
+      AttributeDefinitions:
+        - 
+          AttributeName: "region"
+          AttributeType: "S"
+        - 
+          AttributeName: "cert"
+          AttributeType: "S"
+
+      KeySchema:
+        - 
+          AttributeName: "region"
+          KeyType: "HASH"
+
+      TableName: "cert"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+Outputs:
+  MyApiEndpoint:
+    Description: URL endpoint for the API
+    Value: !Sub 'https://${MyApiGateway}.execute-api.${AWS::Region}.amazonaws.com/${MyApiGateway.Stage}'
