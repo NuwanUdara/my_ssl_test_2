@@ -18,7 +18,7 @@ echo "##                                                                        
 echo "###########################################################################################################"
 echo
 echo
-sleep 5
+sleep 3
 
 echo "#######       Get all REST APIs On API Gateway with tag Ca: true for region ${temp_region}        #######"
 rest_list=`aws apigateway get-rest-apis --region $temp_region --query "items[?tags.Ca=='true'].id[]" --output text`
