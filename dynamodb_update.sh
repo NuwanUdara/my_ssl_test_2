@@ -30,7 +30,7 @@ dosed=`sed -e "s/\r//g" <<< $cert`
 echo $dosed | sed 's/[][]//g' | sed 's/ *$//'| sed 's/^ *//g' | sed -e 's/^"//' -e 's/"$//' > my.cert 
 # echo $dosed | less
 cert_data=`cat my.cert`
-
+rm my.cert
 # Check if the table exists
 if aws dynamodb describe-table --table-name $table_name --region $temp_region >/dev/null 2>&1; then
   echo "Table $table_name exists."
@@ -42,19 +42,6 @@ else
 fi
 echo
 echo "##############        Updating the certificate to the DynomoDB table ${table_name}          ##############"
-# key_name="api"
-# key_value=$temp_region
-# attribute_name="cert"
-# attribute_value=$cert
-
-# item='{
-#   "api": {"S":'$key_value'},
-#   "cert": {"S":"hello"}
-# }'
-
-# aws dynamodb put-item --table-name "$table_name" --region "$temp_region" --item '{"api":{"S":"'"${temp_region}"'"},"cert":{"S":"'"${cert}"'"}}'  #--item "{\"api\":{\"S\":\"$temp_region\"}, \"\":{\"S\":\"\"}}" 
-# aws dynamodb put-item \
-#   --table-name "$table_name" --region "$temp_region" --item "$item"
-echo "Done"
-#  {"api":{"S":"us-west-2"},"cert":{"S":"-----BEGIN CERTIFICATE-----
 aws dynamodb put-item --region $temp_region --table-name $table_name --item "{\"api\": {\"S\": \"$temp_region\"}, \"cert\": {\"S\": \"$cert_data\"} }"
+echo "Done"
+

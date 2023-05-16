@@ -1,17 +1,18 @@
 const { GetItemCommand} = require("@aws-sdk/client-dynamodb");
 const ddbClient  = require( "./dbb.js");
-
+let Table = process.env.CERT_TABLE | "certs"
+const REGION = process.env.API_REGION | "us-west-2";
 // Set the parameters
 const params = {
-  TableName: "certs", //TABLE_NAME
+  TableName: Table, //TABLE_NAME
   Key: {
-    api: { S: "test1" },
+    api: { S: REGION },
   }
 };
 
 async function run () {
   let data = await ddbClient.send(new GetItemCommand(params));
-  data = data.Item.certi.S
+  data = data.Item.cert.S
   //console.log(data)
   // console.log("Success", data.Item.certi.S);
   return data
