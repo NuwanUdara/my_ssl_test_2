@@ -1,0 +1,112 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAmazon API Gateway REST API with a Client Certificate and DynamoDB
+
+Resources:
+  
+  # REST API
+  AppApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: apigw-client-certificate
+      Description: Client Certificate REST API demo
+      Tags:
+      - Key: "Ca"
+        Value: "true"
+  
+  # RootResourceGet:
+  #   Type: AWS::ApiGateway::Resource
+  #   Properties:
+  #     ParentId: !GetAtt RestApi.RootResourceId
+  #     PathPart: "/"
+  #     RestApiId: !Ref AppApi
+
+  ProxyResourceAny:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt AppApi.RootResourceId
+      PathPart: "{proxy+}"
+      RestApiId: !Ref AppApi
+
+  # GET Method
+  RootMethodGet:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref AppApi
+      HttpMethod: GET
+      AuthorizationType: NONE
+      ResourceId: !GetAtt AppApi.RootResourceId
+      Integration:
+        Type: HTTP
+        IntegrationHttpMethod: GET
+        Uri: https://54.245.194.211
+
+  # Any Method
+  ProxyMethodAny:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref AppApi
+      HttpMethod: ANY
+      AuthorizationType: NONE
+      ResourceId: !Ref ProxyResourceAny
+      Integration:
+        Type: HTTP_PROXY
+        IntegrationHttpMethod: ANY
+        Uri: https://54.245.194.211/{proxy}
+
+  # Create a CA certificate
+  ClientCertificate:
+    Type: AWS::ApiGateway::ClientCertificate
+    Properties: 
+      Description: apigw-client-certificate
+      Tags:
+      - Key: "cca" #current ca
+        Value: "true"
+
+  
+  Stage:  
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      StageName: Prod
+      RestApiId: !Ref AppApi
+      DeploymentId: !Ref Deployment
+      ClientCertificateId: !Ref ClientCertificate
+
+  Deployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+    - RootMethodGet
+    - ProxyMethodAny
+    - ClientCertificate
+
+    Properties:
+      RestApiId: !Ref AppApi
+
+  MyDynamoDBTable:
+    Type: 'AWS::DynamoDB::Table'
+    
+    Properties:
+      AttributeDefinitions:
+        - 
+          AttributeName: "region"
+          AttributeType: "S"
+        # - 
+        #   AttributeName: "cert"
+        #   AttributeType: "S"
+
+      KeySchema:
+        - 
+          AttributeName: "region"
+          KeyType: "HASH"
+
+      TableName: "cert"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+
+Outputs:
+
+  # API Gateway endpoint to be used during tests
+  AppApiEndpoint:
+    Description: API Endpoint
+    Value: !Sub "https://${AppApi}.execute-api.${AWS::Region}.amazonaws.com/${Stage}"
