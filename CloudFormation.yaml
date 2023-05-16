@@ -64,9 +64,9 @@ Resources:
         - 
           AttributeName: "region"
           AttributeType: "S"
-        - 
-          AttributeName: "cert"
-          AttributeType: "S"
+        # - 
+        #   AttributeName: "cert"
+        #   AttributeType: "S"
 
       KeySchema:
         - 
