@@ -1,6 +1,3 @@
-// Import required AWS SDK clients and commands for Node.js
-// import { GetItemCommand } from "@aws-sdk/client-dynamodb";
-// import { ddbClient } from "./dbb.js";
 const { GetItemCommand} = require("@aws-sdk/client-dynamodb");
 const ddbClient  = require( "./dbb.js");
 
