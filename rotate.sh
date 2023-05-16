@@ -19,7 +19,7 @@ echo "Done!"
 echo
 echo
 echo "##########################        Get the current CA in ${temp_region}          ##########################"
-prev_cert=`aws apigateway get-client-certificates --region $temp_region --query "items[?tags.cca=='true'].clientCertificateId" --output text`
+prev_cert=`aws apigateway get-client-certificates --region $temp_region --query "items[?tags.cca=='true'].clientCertificateId[]" --output text`
 echo
 echo "${prev_cert}"
 echo "Done!"
@@ -40,6 +40,11 @@ echo
 echo
 echo "#####################        Remove the old CA in the region ${temp_region}          #####################"
 echo
-echo 'removing '${prev_cert}''
-aws apigateway delete-client-certificate --client-certificate-id $prev_cert --region $temp_region
-echo "Done!"
+echo
+for val in $prev_cert; do
+ echo 'removing '${val}''
+ aws apigateway delete-client-certificate --client-certificate-id $val --region $temp_region
+ echo "Done!"
+done
+echo 
+echo "#########################################################################################################"
