@@ -1,7 +1,7 @@
 const { GetItemCommand} = require("@aws-sdk/client-dynamodb");
 const ddbClient  = require( "./dbb.js");
 let Table = process.env.CERT_TABLE | "certs"
-const REGION = process.env.API_REGION | "us-west-2";
+const REGION = "us-west-2";
 // Set the parameters
 const params = {
   TableName: Table, //TABLE_NAME
