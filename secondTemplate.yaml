@@ -10,6 +10,8 @@ Resources:
     Properties:
       Name: apigw-client-certificate
       Description: Client Certificate REST API demo
+      EndpointConfiguration:
+        Type: REGIONAL
       Tags:
       - Key: "Ca"
         Value: "true"
